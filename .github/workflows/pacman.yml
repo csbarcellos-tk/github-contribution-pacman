@@ -1,4 +1,4 @@
-name: Generate Pac-Man Participation Animation
+name: Generate Pac-Man Contribution Animation
 
 on:
   schedule:
@@ -6,21 +6,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Generate Pac-Man SVGs
-        uses: ghuser989/github-contribution-pacman@v2
+        uses: abozanona/pacman-contribution-graph@main
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_user_name: ${{ github.repository_owner }}
           output_dir: output
 
-      - name: Commit and push changes
+      - name: Commit and push SVGs
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Update Pac-Man contribution graph"
+          commit_message: "Update Pac-Man graph"
           file_pattern: output/*.svg
           branch: output
